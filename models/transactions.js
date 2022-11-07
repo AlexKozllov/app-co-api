@@ -1,4 +1,4 @@
-const { Schema, SchemaTypes } = require('mongoose');
+const { Schema, SchemaTypes, default: mongoose } = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 
 const transactionSchema = Schema(
@@ -44,8 +44,6 @@ const options = {
 
 transactionSchema.plugin(mongoosePaginate);
 const TransactionsModel = mongoose.model('transactions', transactionSchema);
-TransactionsModel.paginate().then({}, options, (err, result) => {
-  console.log(result);
-}); // Usage
+TransactionsModel.paginate().then({}); // Usage
 
 module.exports = TransactionsModel;

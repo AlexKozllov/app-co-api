@@ -1,15 +1,15 @@
 const axios = require('axios');
 const rateLimit = require('axios-rate-limit');
 require('dotenv').config();
-const { API_KEY } = process.env.API_KEY;
+const { API_KEY } = process.env;
 const BASE_URL = 'https://api.etherscan.io/api';
 
-const http = rateLimit(axios.create({ baseURL: BASE_URL }), {
-  maxRPS: 1,
+const http = rateLimit(axios.create({}), {
+  maxRequests: 5,
+  perMilliseconds: 1000,
 });
 
 const getLastBlock = async () => {
-  //   await sleep(200);
   try {
     const { data } = await http.get('/', {
       baseURL: BASE_URL,
@@ -27,7 +27,6 @@ const getLastBlock = async () => {
 };
 
 const getBlockByNumber = async (blockNumber) => {
-  //   await sleep(200);
   try {
     const { data } = await http.get('/', {
       baseURL: BASE_URL,

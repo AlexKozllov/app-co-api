@@ -1,5 +1,5 @@
 const hexConverter = {
-  decToHex: (dec) => dec.toString(16),
+  decToHex: (dec) => `0x${dec.toString(16)}`,
 
   hexToDec: (hex) => parseInt(hex, 16),
 };
