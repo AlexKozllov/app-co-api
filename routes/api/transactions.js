@@ -1,11 +1,10 @@
 const express = require('express');
-// const { ctrlWrapper } = require('../../middlewares');
-// const { transactions: ctrl } = require('../../controllers');
+const {
+  getAllTransactions,
+} = require('../../controllers/transactionsController');
+
 const router = express.Router();
 
-// router.get('/', ctrlWrapper(ctrl.getTransactions));
-router.get('/', (req, res, next) => {
-  console.log('sucsses');
-});
+router.get('/', getAllTransactions);
 
 module.exports = router;
