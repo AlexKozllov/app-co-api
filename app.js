@@ -1,21 +1,36 @@
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const { rateLimit } = require('express-rate-limit');
+const rateLimitConfig = require('./config/rateLimitConfig');
+
 const fs = require('fs');
 const path = require('path');
+const { getAllTransactions } = require('./controllers/transactionsController');
+const { ErrorHandler } = require('./helpers/errorHandler');
+const { HttpCode } = require('./helpers/constants');
+const getTransactionsBundle = require('./services/getTransactionsBundle');
 require('dotenv').config();
-
-const transactionsRouter = require('./routes/api/transactions.js');
 
 const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
+const limiter = rateLimit({
+  ...rateLimitConfig,
+  handler: (req, res, next) => {
+    next(new ErrorHandler(HttpCode.BAD_REQUEST, 'API access limit exceeded'));
+  },
+});
+
+app.use(limiter);
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-// app.use('/api/transactions', transactionsRouter);
+// app.use(getTransactionsBundle);
+
+app.use('/api/getAllTransactions', getAllTransactions);
 
 // app.use(express.static(path.join(__dirname, '/public')));
 
