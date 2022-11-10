@@ -4,7 +4,7 @@ const { ErrorHandler } = require('../helpers/errorHandler');
 
 const createAccountLimiter = rateLimit({
   windowMs: 90000,
-  max: 5,
+  max: 30,
   headers: (req, res, next) => {
     next(
       new ErrorHandler(
